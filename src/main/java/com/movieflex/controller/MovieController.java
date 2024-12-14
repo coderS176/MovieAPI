@@ -7,10 +7,7 @@ import com.movieflex.service.MovieService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,6 +30,29 @@ public class MovieController {
         MovieDto dto = convertToMovieDto(movieDto);
         return new ResponseEntity<>(movieService.addMovie(dto,file), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{movieId}")
+    public ResponseEntity<MovieDto> getMovieHandler(@PathVariable Integer movieId){
+        return new ResponseEntity<>(movieService.getMovie(movieId),HttpStatus.OK);
+    }
+
+    @GetMapping("/all-movies")
+    public ResponseEntity<Iterable<MovieDto>> getAllMoviesHandler(){
+        return new ResponseEntity<>(movieService.getAllMovies(),HttpStatus.OK);
+    }
+
+    @PutMapping("/update-movie/{movieId}")
+    public ResponseEntity<MovieDto> updateMovieHandler(@PathVariable Integer movieId, @RequestPart MultipartFile file, @RequestPart String movieDto) throws IOException {
+        MovieDto dto = convertToMovieDto(movieDto);
+        if(file.isEmpty()) file = null;
+        return new ResponseEntity<>(movieService.updateMovie(movieId,dto,file),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete-movie/{movieId}")
+    public ResponseEntity<String> deleteMovieHandler(@PathVariable Integer movieId) throws IOException {
+        return new ResponseEntity<>(movieService.deleteMovie(movieId),HttpStatus.OK);
+    }
+
 
     private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
