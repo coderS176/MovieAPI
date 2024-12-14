@@ -3,6 +3,7 @@ package com.movieflex.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movieflex.dto.MovieDto;
+import com.movieflex.exceptions.EmptyFileException;
 import com.movieflex.service.MovieService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,10 @@ public class MovieController {
     }
 
     @PostMapping("/add-movie")
-    public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, @RequestPart String movieDto) throws IOException {
+    public ResponseEntity<MovieDto> addMovieHandler(@RequestPart MultipartFile file, @RequestPart String movieDto) throws IOException, EmptyFileException {
         // when you are dealing with file and json object then you need to convert string to class object
         // then only you can interact with service class
-
+        if(file.isEmpty()) throw new EmptyFileException("File is Emply! please send file.");
         MovieDto dto = convertToMovieDto(movieDto);
         return new ResponseEntity<>(movieService.addMovie(dto,file), HttpStatus.CREATED);
     }
