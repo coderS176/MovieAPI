@@ -1,0 +1,9 @@
+-> JWT dependency in pom.xml
+-> user model -> with 'refreshToken field'
+-> user repo
+-> refreshToken -> model
+-> refreshToken repo
+-> ApplicationConfig -> for beans of important interfaces/classes
+-> JwtService
+-> RefreshTokenService
+-> AuthFilterService
