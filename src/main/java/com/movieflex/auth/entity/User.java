@@ -90,4 +90,18 @@ public class User implements UserDetails {
                 ", role=" + role +
                 '}';
     }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    public RefreshToken getRefreshToken() throws NullPointerException {
+        return this.getRefreshToken();
+    }
 }
