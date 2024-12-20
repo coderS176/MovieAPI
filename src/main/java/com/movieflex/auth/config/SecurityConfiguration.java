@@ -13,12 +13,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final AuthFilterService authFilterService;
     private final AuthenticationProvider authenticationProvider;
-
+    public SecurityConfiguration(AuthFilterService authFilterService, AuthenticationProvider authenticationProvider) {
+        this.authFilterService = authFilterService;
+        this.authenticationProvider = authenticationProvider;
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
