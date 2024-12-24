@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -47,38 +48,33 @@ public class User implements UserDetails {
     @Email(message = "Please Enter Email in proper format")
     private String email;
 
-    private boolean isAccountNonExpired = true;
-
-    private boolean isAccountNonLocked = true;
-
-    private boolean isCredentialsNonExpired = true;
-
-    private boolean isEnabled = true;
+    @OneToOne(mappedBy = "user")
+    private ForgotPassword forgotPassword;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return true;
     }
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return true;
     }
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return true;
     }
     @Override
     public String toString() {
@@ -102,6 +98,6 @@ public class User implements UserDetails {
     }
 
     public RefreshToken getRefreshToken() throws NullPointerException {
-        return this.getRefreshToken();
+        return this.refreshToken;
     }
 }

@@ -36,9 +36,10 @@ public class AuthService {
     public AuthResponse register(RegisterRequest registerRequest){
 
         var user = User.builder()
-                .firstName(registerRequest.getFirsName())
+                .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .email(registerRequest.getEmail())
+                .username(registerRequest.getUserName())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
                 .build();
