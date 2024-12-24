@@ -7,3 +7,5 @@
 -> JwtService
 -> RefreshTokenService
 -> AuthFilterService
+
+Problems 1st Lombok version compatible nhi tha spring boot 3.4 k sath kyunki ye jdk 17+ use krta h

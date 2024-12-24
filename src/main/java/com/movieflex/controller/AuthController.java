@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/auth/")
 public class AuthController {
 
     private final AuthService authService;
@@ -41,6 +41,7 @@ public class AuthController {
         return ResponseEntity.ok("Working");
     }
 
+    @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
         RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(refreshTokenRequest.getRefreshToken());
         User user = refreshToken.getUser();
